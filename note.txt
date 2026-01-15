@@ -1,0 +1,25 @@
+1. To begin the project, create an isolated environment within your project 
+folder to prevent conflicts and ensure a clean workspace. 
+python -m venv .venv
+source .venv/bin/activate  
+pip install pandas pyarrow # install the necessary packages
+
+2. To run the pipeline.py script after reopening the project, first 
+activate the .venv that contains the packages to use. 
+source .venv/bin/activate
+
+3. Then, run the line below to pass 12 as an argument and execute the script
+python ./pipeline/pipeline.py 12
+
+4. All the above can also be achieved using uv
+pip install uv # if not already installed
+for any project you are working on, you can specify the particular python
+version you want installed in the virtual environment
+uv init --python 3.13 
+To confirm the 2 versions of python installed in the Global env. and the
+virtual env, run python -V (for Global env) and uv run python -V (for virtual env)
+To install packages inside the venv, run:
+uv add pandas pyarrow
+uv run python ./pipeline/pipeline.py 12 # to run the script with the venv
+
+5. parquet is a binary form of data that is optimized compared to a csv.
