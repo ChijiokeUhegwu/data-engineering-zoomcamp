@@ -2,6 +2,7 @@
 # coding: utf-8
 
 # import packages
+import click
 import pandas as pd
 from sqlalchemy import create_engine
 from tqdm.auto import tqdm
@@ -31,21 +32,21 @@ parse_dates = [
     "tpep_dropoff_datetime"
 ]
 
+# create command-line interface parameters for the script
+@click.command()
+@click.option('--pg-user', default='root', help='PostgreSQL user')
+@click.option('--pg-password', default='root', help='PostgreSQL password')
+@click.option('--pg-host', default='localhost', help='PostgreSQL host')
+@click.option('--pg-port', default=5432, type=int, help='PostgreSQL port')
+@click.option('--pg-db', default='ny_taxi', help='PostgreSQL database name')
+@click.option('--year', default=2021, type=int, help='Year of the data')
+@click.option('--month', default=1, type=int, help='Month of the data')
+@click.option('--target-table', default='yellow_taxi_data', help='Target table name')
+@click.option('--chunksize', default=100000, type=int, help='Chunk size for reading CSV')
 
-# create variables for parameterization
-def run():
-    year = 2021
-    month = 1
-    pg_user = 'root'
-    pg_password = 'root'
-    pg_host = 'localhost'
-    pg_port = 5432
-    pg_db = 'ny_taxi'
-    target_table = 'yellow_taxi_data'
-    chunksize = 10000
-    
-    # Read a sample of the data
-    prefix = 'https://github.com/DataTalksClub/nyc-tlc-data/releases/download/yellow/'
+def run(pg_user, pg_password, pg_host, pg_port, pg_db, year, month, target_table, chunksize):
+    """Ingest NYC taxi data into PostgreSQL database."""
+    prefix = 'https://github.com/DataTalksClub/nyc-tlc-data/releases/download/yellow'
     url = f'{prefix}/yellow_tripdata_{year}-{month:02d}.csv.gz'
     # f"{month:02d}" - the month are zero-padded with a width of 2 
 

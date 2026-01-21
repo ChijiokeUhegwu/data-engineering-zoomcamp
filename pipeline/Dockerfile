@@ -18,11 +18,11 @@ RUN uv sync --locked
 
 # copy the script to the container. 1st name is source file, 
 # the . (current working directory) is destination
-COPY pipeline.py .
+COPY ingest_data.py .
 
 # define what to do first when the container runs
 # In this case, just run the script
-ENTRYPOINT ["python", "pipeline.py"]
+ENTRYPOINT ["python", "ingest_data.py"]
 
 # before building a docker image, ensure to always save the dockerfile
 # and confirm its content with cat Dockerfile
